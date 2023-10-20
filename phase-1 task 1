@@ -1,0 +1,90 @@
+import requests
+import pandas as pd
+
+url = 'https://api.binance.com/api/v3/ticker/24hr'
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    rows = []
+    for item in data:
+        row = {
+            'symbol': item['symbol'],
+            'price': float(item['lastPrice']),
+            'volume': float(item['quoteVolume']),
+            'bid_price': float(item['bidPrice']),
+            'ask_price': float(item['askPrice'])
+        }
+        rows.append(row)
+
+    df = pd.DataFrame(rows)
+    df.to_csv('binance_data.csv', index=False)
+    print('Data saved to binance_data.csv')
+else:
+    print('Failed to retrieve data. Status code:', response.status_code)
+
+
+---------------------------------------------------------------------------------------------------------------------------
+import pandas as pd
+
+csv_file_path = 'binance_data.csv'
+df = pd.read_csv(csv_file_path)
+print(df)
+---------------------------------------------------------------------------------------------------------------------------
+df = pd.read_csv(csv_file_path)
+-----------------------------------------------------------------------------------------------------------------------------
+df
+---------------------------------------------------------------------------------------------------------------------------------
+import pandas as pd
+
+# Assuming 'data' is a list of dictionaries
+data = [
+    {"symbol": "BTCUSDT", "price": 60000},
+    {"symbol": "ETHUSDT", "price": 3000},
+    # Add more data as needed
+]
+
+# Create a DataFrame from the 'data' list
+df = pd.DataFrame(data)
+
+# Iterate through the DataFrame rows
+for index, row in df.iterrows():
+    print(f"Row (index): symbol = {row['symbol']}, price = {row['price']}")
+
+# Save the DataFrame to a CSV file
+csv_file_path = 'binance_data.csv'
+df.to_csv(csv_file_path, index=False)
+print(f"Data saved to {csv_file_path}")
+-----------------------------------------------------------------------------------------------------------------------------------
+
+import pandas as pd
+
+# Assuming 'data' is a list of dictionaries
+data = [
+    {"symbol": "BTCUSDT", "price": 60000},
+    {"symbol": "ETHUSDT", "price": 3000},
+    # Add more data as needed
+]
+
+# Create a DataFrame from the 'data' list
+df = pd.DataFrame(data)
+
+# Display the entire DataFrame in rows
+print(df.to_string(index=False))
+
+# Save the DataFrame to a CSV file
+csv_file_path = 'binance_data.csv'
+df.to_csv(csv_file_path, index=False)
+print(f"Data saved to {csv_file_path}")
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+df = pd.read_csv(csv_file_path)
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+print(df.head(10))
+------------------------------------------------------------------------------------------------------------------------------
+
+print(df.tail(10))
